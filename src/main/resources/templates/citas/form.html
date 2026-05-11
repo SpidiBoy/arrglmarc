@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(pageTitle='Nueva cita', activePage='citas', content=~{::main-content})}">
+<head><title>Nueva cita</title></head>
+<body>
+<th:block th:fragment="main-content">
+
+    <div class="card form-card">
+        <h2 class="form-heading">Registrar nueva cita</h2>
+
+        <form th:action="@{/citas/nueva}" th:object="${cita}" method="post">
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="mascota">Mascota</label>
+                    <select id="mascota" th:field="*{mascota.id}" required>
+                        <option value="">— Seleccione —</option>
+                        <option th:each="m : ${mascotas}"
+                                th:value="${m.id}"
+                                th:text="${m.nombre} + ' — ' + ${m.raza}">—</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="servicio">Servicio</label>
+                    <select id="servicio" th:field="*{servicio.id}" required>
+                        <option value="">— Seleccione —</option>
+                        <option th:each="s : ${servicios}"
+                                th:value="${s.id}"
+                                th:text="${s.nombre} + ' (S/ ' + ${s.precio} + ')'">—</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" id="fecha" th:field="*{fecha}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="hora">Hora</label>
+                    <input type="time" id="hora" th:field="*{hora}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="responsable">Responsable</label>
+                    <select id="responsable" th:field="*{responsable}">
+                        <option value="Sofía R.">Sofía R.</option>
+                        <option value="Javier M.">Javier M.</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notas">Notas</label>
+                    <input type="text" id="notas" th:field="*{notas}" placeholder="Instrucciones especiales..."/>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Confirmar cita</button>
+                <a th:href="@{/citas}" class="btn">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+</th:block>
+</body>
+</html>

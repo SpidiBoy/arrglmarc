@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(pageTitle='Mascota', activePage='mascotas', content=~{::main-content})}">
+<head><title>Mascota</title></head>
+<body>
+<th:block th:fragment="main-content">
+
+    <div class="card form-card">
+        <h2 th:text="${mascota.id != null ? 'Editar mascota' : 'Nueva mascota'}" class="form-heading">Mascota</h2>
+
+        <form th:action="${mascota.id != null ? '/mascotas/' + mascota.id + '/editar' : '/mascotas/nueva'}"
+              th:object="${mascota}"
+              method="post">
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="especie">Especie</label>
+                    <select id="especie" th:field="*{especie}">
+                        <option value="Perro">Perro</option>
+                        <option value="Gato">Gato</option>
+                        <option value="Conejo">Conejo</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="raza">Raza</label>
+                    <input type="text" id="raza" th:field="*{raza}"/>
+                </div>
+                <div class="form-group">
+                    <label for="tamano">Tamaño</label>
+                    <select id="tamano" th:field="*{tamano}">
+                        <option value="">Selecciona...</option>
+                        <option value="Pequeño (hasta 10 kg)">Pequeño (hasta 10 kg)</option>
+                        <option value="Mediano (10-25 kg)">Mediano (10-25 kg)</option>
+                        <option value="Grande (más de 25 kg)">Grande (más de 25 kg)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edad">Edad (años)</label>
+                    <input type="number" id="edad" th:field="*{edad}" min="0" max="30"/>
+                </div>
+                <div class="form-group">
+                    <label for="genero">Género</label>
+                    <select id="genero" th:field="*{genero}">
+                        <option value="Macho">Macho</option>
+                        <option value="Hembra">Hembra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cliente">Dueño</label>
+                    <select id="cliente" th:field="*{cliente.id}">
+                        <option th:each="c : ${clientes}"
+                                th:value="${c.id}"
+                                th:text="${c.nombre}">—</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a th:href="@{/mascotas}" class="btn">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+</th:block>
+</body>
+</html>
